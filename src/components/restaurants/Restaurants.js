@@ -6,6 +6,7 @@ class Restaurants extends Component {
   renderRestaurants = () => this.props.restaurants.map( restaurant => <Restaurant restaurant={restaurant} key={restaurant.id} delete={this.props.deleteRestaurant} /> )
 
   render() {
+
     return(
       <ul>
         { this.renderRestaurants() }

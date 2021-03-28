@@ -1,11 +1,6 @@
 import { combineReducers } from 'redux'
 import cuid from 'cuid';
 
-let defaultState = {
-  restaurants: [],
-  reviews: []
-}
-
 const rootReducer = combineReducers({
   restaurants: manageRestaurants,
   reviews: manageReviews
@@ -13,45 +8,52 @@ const rootReducer = combineReducers({
 
 export default rootReducer
 
-function manageRestaurants(state = defaultState, action) {
+function manageRestaurants(state = [], action) {
+  let idx
+
   switch (action.type) {
 
     case 'ADD_RESTAURANT':
 
-      const restaurant = {
+      const newRestaurant = {
         id: cuid(),
         text: action.payload
       }
 
-      return { ...state, restaurants: [...state.restaurants, restaurant] }
+      return [ ...state, newRestaurant]
 
     case 'DELETE_RESTAURANT':
-
-      return { restaurants: state.restaurants.filter(restaurant => restaurant.id !== action.payload )}
+      // debugger
+      //return  [ state, state.filter(restaurant => restaurant.id !== action.payload) ]
+      idx = state.findIndex(rest => rest.id  === action.payload)
+      return [...state.slice(0, idx), ...state.slice(idx + 1)]
 
     default:
       return state
   }
 }
 
-function reviewManager(state = defaultState, action) {
+function manageReviews(state = [], action) {
+  let idx
   switch (action.type) {
+
     case 'ADD_REVIEW':
 
-      const review = {
+      const newReview = {
         id: cuid(),
-        restaurantId: action.payload.restaurantId,
-        text: action.payload.text
+        restaurantId: action.review.restaurantId,
+        text: action.review.text
       }
 
-      return { ...state, reviews: [...state.reviews, review] }
+      return [ ...state, newReview ]
 
     case 'DELETE_REVIEW':
-
-      return { reviews: state.reviews.filter(review => review.id !== action.payload )}
+      //return { reviews: state.reviews.filter(review => review.id !== action.payload )}
+      idx = state.findIndex(review => review.id  === action.payload)
+      return [...state.slice(0, idx), ...state.slice(idx + 1)]
 
     default:
-      return state 
+      return state
 
   }
 }
