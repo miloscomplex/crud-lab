@@ -159,6 +159,7 @@ describe('Reviews Component', () => {
     const store = createStore(manageRestaurant);
     store.dispatch({type: 'ADD_RESTAURANT', text: 'The Kings Head'})
     let restaurantId = store.getState().restaurants[0].id
+    console.log(restaurantId);
     store.dispatch({ type: 'ADD_REVIEW', review: { text: "became friends with bartender", restaurantId } })
 
     const wrapper = mount(<Provider store={store}><App /></Provider>);
